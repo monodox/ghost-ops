@@ -3,11 +3,11 @@
     "fetch": {
       "command": "uvx",
       "args": ["mcp-server-fetch"],
-      "disabled": false,
+      "disabled": true,
       "autoApprove": [
         "fetch"
       ],
-      "description": "🌐 Fetch MCP server for making HTTP requests to external APIs (security scanning APIs, vulnerability databases)"
+      "description": "🌐 Fetch MCP server for making HTTP requests to external APIs (security scanning APIs, vulnerability databases) - DISABLED: Install uv first"
     },
     "github": {
       "command": "uvx",
