@@ -1,0 +1,314 @@
+# 👻 GhostOps - Security Scanning Platform
+# Comprehensive .gitignore for open source Next.js project
+
+# ============================================
+# Dependencies
+# ============================================
+node_modules/
+/.pnp
+.pnp.js
+.pnp.*
+.yarn/install-state.gz
+jspm_packages/
+
+# ============================================
+# Environment Variables & Secrets
+# ============================================
+# IMPORTANT: Never commit actual secrets!
+.env
+.env.local
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Keep these for documentation:
+# .env.example (tracked)
+
+# API Keys and Secrets
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# ============================================
+# Next.js
+# ============================================
+/.next/
+/out/
+next-env.d.ts
+.next/
+out/
+
+# ============================================
+# Build Output
+# ============================================
+/build
+/dist
+*.tsbuildinfo
+*.tsbuildinfo.*
+
+# ============================================
+# Testing
+# ============================================
+/coverage
+*.lcov
+.nyc_output
+/test-results/
+/playwright-report/
+/playwright/.cache/
+__tests__/__snapshots__/
+.jest-cache/
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# ============================================
+# Runtime & Process Files
+# ============================================
+pids/
+*.pid
+*.seed
+*.pid.lock
+lib-cov
+
+# ============================================
+# Caches
+# ============================================
+.npm
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.turbo
+*.tsbuildinfo
+
+# ============================================
+# Package Manager Files
+# ============================================
+# Yarn
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# pnpm
+.pnpm-debug.log*
+
+# npm
+.npm
+package-lock.json.backup
+
+# ============================================
+# Database & Storage
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+/db/*.db
+/database/*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# ============================================
+# Deployment Platforms
+# ============================================
+# Vercel
+.vercel
+.vercel.json
+
+# Netlify
+.netlify
+
+# AWS
+.aws/
+.elasticbeanstalk/
+
+# Docker
+docker-compose.override.yml
+.dockerignore.local
+
+# ============================================
+# IDEs & Editors
+# ============================================
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+.vscode-test
+
+# JetBrains (WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# Eclipse
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# ============================================
+# Operating Systems
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Temporary Files
+# ============================================
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.swp
+*.swo
+
+# ============================================
+# Archives
+# ============================================
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# ============================================
+# Security & Monitoring
+# ============================================
+.sentryclirc
+.sentry-native/
+
+# ============================================
+# Storybook
+# ============================================
+storybook-static/
+.storybook-out/
+
+# ============================================
+# Optional REPL History
+# ============================================
+.node_repl_history
+
+# ============================================
+# Misc
+# ============================================
+.repl_history
+.husky/_
+.changeset/
+.rush/
+.docusaurus/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Backup files
+*~
+*.bak
+*.backup
+
+# ============================================
+# GhostOps Specific
+# ============================================
+# Scan results (if stored locally)
+/scan-results/
+/reports/
+
+# Local development overrides
+*.local.*
+
+# Generated documentation
+/docs/api/generated/
+
+# ============================================
+# Keep These Files (Explicitly Tracked)
+# ============================================
+# !.env.example
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json

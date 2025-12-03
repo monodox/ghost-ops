@@ -1,0 +1,106 @@
+{
+  "name": "Generate Fix PR",
+  "description": "Creates a GitHub Pull Request with automated security fix",
+  "trigger": {
+    "type": "user-action",
+    "action": "generate-pr",
+    "source": "finding-detail-page"
+  },
+  "conditions": [
+    {
+      "field": "remediation.status",
+      "operator": "equals",
+      "value": "pending"
+    },
+    {
+      "field": "remediation.type",
+      "operator": "equals",
+      "value": "automated"
+    },
+    {
+      "field": "github.connected",
+      "operator": "equals",
+      "value": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "ai-generate",
+      "model": "kiro",
+      "task": "create-code-patch",
+      "input": {
+        "originalCode": "${finding.codeSnippet}",
+        "suggestedCode": "${remediation.suggestedCode}",
+        "file": "${finding.file}",
+        "line": "${finding.line}"
+      },
+      "steering": [".kiro/steering/remediation_writer.md"],
+      "output": {
+        "patch": "string",
+        "commitMessage": "string",
+        "prTitle": "string",
+        "prDescription": "string"
+      }
+    },
+    {
+      "type": "git-operation",
+      "operation": "create-branch",
+      "branchName": "ghostops/fix-${finding.id}",
+      "baseBranch": "main"
+    },
+    {
+      "type": "git-operation",
+      "operation": "apply-patch",
+      "patch": "${patch}",
+      "files": ["${finding.file}"]
+    },
+    {
+      "type": "git-operation",
+      "operation": "commit",
+      "message": "${commitMessage}",
+      "author": {
+        "name": "GhostOps Bot",
+        "email": "bot@ghostops.dev"
+      }
+    },
+    {
+      "type": "github-api",
+      "operation": "create-pull-request",
+      "params": {
+        "title": "${prTitle}",
+        "body": "${prDescription}",
+        "head": "ghostops/fix-${finding.id}",
+        "base": "main",
+        "labels": ["security", "automated-fix", "ghostops"]
+      }
+    },
+    {
+      "type": "update",
+      "model": "Remediation",
+      "fields": {
+        "status": "pr_created",
+        "prUrl": "${pr.url}"
+      }
+    },
+    {
+      "type": "notify",
+      "channels": ["activity-log", "remediation-center"],
+      "message": "🎉 PR created: ${pr.url}"
+    }
+  ],
+  "onSuccess": {
+    "message": "✅ Pull Request #${pr.number} created successfully",
+    "updateUI": true,
+    "redirect": "/console/remediations"
+  },
+  "onFailure": {
+    "message": "❌ Failed to create PR: ${error.message}",
+    "updateStatus": "failed",
+    "notify": true
+  },
+  "metadata": {
+    "author": "GhostOps",
+    "version": "1.0.0",
+    "tags": ["github", "pr", "automation", "security-fix"]
+  }
+}

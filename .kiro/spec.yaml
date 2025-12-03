@@ -1,0 +1,195 @@
+name: ghostops
+version: 1.0.0
+description: Automated Security & Compliance Scanner for GitHub Repositories
+
+# Data Models
+models:
+  Repository:
+    fields:
+      - id: string
+      - name: string
+      - url: string
+      - owner: string
+      - lastScan: timestamp
+      - status: enum[healthy, warning, critical, unknown]
+      - hooksEnabled: boolean
+      - issueCount: number
+      - branch: string
+
+  ScanResult:
+    fields:
+      - id: string
+      - repositoryId: string
+      - timestamp: timestamp
+      - duration: number
+      - totalFindings: number
+      - critical: number
+      - high: number
+      - medium: number
+      - low: number
+      - status: enum[pending, running, completed, failed]
+
+  Finding:
+    fields:
+      - id: string
+      - scanId: string
+      - severity: enum[critical, high, medium, low]
+      - title: string
+      - description: string
+      - file: string
+      - line: number
+      - category: string
+      - codeSnippet: string
+      - aiExplanation: string
+      - remediation: string
+      - suggestedCode: string
+      - status: enum[open, fixed, ignored, false_positive]
+
+  Remediation:
+    fields:
+      - id: string
+      - findingId: string
+      - title: string
+      - status: enum[pending, pr_created, completed, failed, manual]
+      - type: enum[automated, manual]
+      - repository: string
+      - prUrl: string
+      - script: string
+      - createdAt: timestamp
+
+# API Endpoints
+endpoints:
+  - path: /api/scan
+    method: POST
+    description: Trigger security scan on repository
+    input:
+      - repositoryId: string
+      - branch: string
+    output: ScanResult
+
+  - path: /api/findings
+    method: GET
+    description: Get all findings for a scan
+    input:
+      - scanId: string
+      - severity: string (optional)
+    output: Finding[]
+
+  - path: /api/findings/:id
+    method: GET
+    description: Get detailed finding information
+    input:
+      - id: string
+    output: Finding
+
+  - path: /api/remediate
+    method: POST
+    description: Generate automated remediation
+    input:
+      - findingId: string
+      - type: enum[automated, manual]
+    output: Remediation
+
+  - path: /api/github/connect
+    method: POST
+    description: Connect GitHub repository
+    input:
+      - repoUrl: string
+      - accessToken: string
+    output: Repository
+
+  - path: /api/github/webhook
+    method: POST
+    description: Handle GitHub webhook events
+    input:
+      - event: string
+      - payload: object
+    output: { success: boolean }
+
+# Terminal Commands
+commands:
+  - name: ghost scan
+    description: Run security scan on current repository
+    args: []
+    output: Scan results with findings count
+
+  - name: ghost audit
+    description: Perform compliance audit (SOC2, CIS, OWASP)
+    args: []
+    output: Compliance score and violations
+
+  - name: ghost fix
+    description: Apply automated fix for finding
+    args:
+      - id: string
+    output: PR URL or fix status
+
+  - name: ghost status
+    description: Show system status and statistics
+    args: []
+    output: Dashboard summary
+
+  - name: ghost help
+    description: Show available commands
+    args: []
+    output: Command list
+
+# Security Rules
+rules:
+  - id: hardcoded-secrets
+    name: Hardcoded Secrets Detection
+    severity: critical
+    patterns:
+      - AWS_ACCESS_KEY
+      - API_KEY
+      - SECRET_KEY
+      - password =
+      - token =
+
+  - id: sql-injection
+    name: SQL Injection Vulnerability
+    severity: critical
+    patterns:
+      - raw SQL queries
+      - unsanitized input
+
+  - id: outdated-dependencies
+    name: Outdated Dependencies
+    severity: high
+    check: package.json versions
+
+  - id: missing-security-headers
+    name: Missing Security Headers
+    severity: medium
+    check: CSP, X-Frame-Options, HSTS
+
+  - id: weak-crypto
+    name: Weak Cryptography
+    severity: high
+    patterns:
+      - MD5
+      - SHA1
+      - DES
+
+# Compliance Frameworks
+compliance:
+  - framework: SOC2
+    controls:
+      - Access Control
+      - Encryption
+      - Audit Logging
+      - Secure Communication
+
+  - framework: CIS
+    benchmarks:
+      - Password Policy
+      - Network Security
+      - System Hardening
+
+  - framework: OWASP
+    categories:
+      - Injection
+      - Broken Authentication
+      - Sensitive Data Exposure
+      - XML External Entities
+      - Broken Access Control

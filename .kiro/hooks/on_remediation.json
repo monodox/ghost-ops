@@ -1,0 +1,75 @@
+{
+  "name": "Generate Remediation",
+  "description": "Creates AI-powered remediation suggestions when user requests a fix",
+  "trigger": {
+    "type": "user-action",
+    "action": "request-remediation",
+    "source": "finding-detail-page"
+  },
+  "conditions": [
+    {
+      "field": "finding.status",
+      "operator": "equals",
+      "value": "open"
+    },
+    {
+      "field": "finding.severity",
+      "operator": "in",
+      "value": ["critical", "high", "medium"]
+    }
+  ],
+  "actions": [
+    {
+      "type": "ai-generate",
+      "model": "kiro",
+      "task": "create-remediation",
+      "input": {
+        "finding": "${finding}",
+        "codeContext": "${finding.codeSnippet}",
+        "repository": "${repository}"
+      },
+      "steering": [
+        ".kiro/steering/remediation_writer.md",
+        ".kiro/steering/spooky_tone.md"
+      ],
+      "output": {
+        "script": "string",
+        "explanation": "string",
+        "suggestedCode": "string",
+        "steps": "array"
+      }
+    },
+    {
+      "type": "validate",
+      "checks": [
+        "syntax-valid",
+        "no-breaking-changes",
+        "security-improved"
+      ]
+    },
+    {
+      "type": "store",
+      "destination": "database",
+      "model": "Remediation"
+    },
+    {
+      "type": "notify",
+      "channels": ["activity-log", "remediation-center"],
+      "message": "🔧 Remediation generated for: ${finding.title}"
+    }
+  ],
+  "onSuccess": {
+    "redirect": "/console/remediations",
+    "message": "✅ Remediation ready for review",
+    "updateUI": true
+  },
+  "onFailure": {
+    "message": "❌ Failed to generate remediation: ${error.message}",
+    "fallback": "manual-review"
+  },
+  "metadata": {
+    "author": "GhostOps",
+    "version": "1.0.0",
+    "tags": ["remediation", "ai", "security-fix"]
+  }
+}

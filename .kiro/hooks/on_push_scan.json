@@ -1,0 +1,66 @@
+{
+  "name": "Auto-Scan on Push",
+  "description": "Automatically triggers security scan when code is pushed to repository",
+  "trigger": {
+    "type": "webhook",
+    "event": "push",
+    "source": "github"
+  },
+  "conditions": [
+    {
+      "field": "branch",
+      "operator": "in",
+      "value": ["main", "master", "develop"]
+    },
+    {
+      "field": "repository.hooksEnabled",
+      "operator": "equals",
+      "value": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "scan",
+      "target": "repository",
+      "config": {
+        "scanType": "full",
+        "rules": ["all"],
+        "compliance": ["SOC2", "CIS", "OWASP"]
+      }
+    },
+    {
+      "type": "notify",
+      "channels": ["activity-log", "dashboard"],
+      "message": "🔍 Security scan initiated for ${repository.name}"
+    },
+    {
+      "type": "ai-analysis",
+      "model": "kiro",
+      "task": "analyze-findings",
+      "steering": [".kiro/steering/finding_explainer.md"]
+    },
+    {
+      "type": "store",
+      "destination": "database",
+      "model": "ScanResult"
+    }
+  ],
+  "onSuccess": {
+    "notify": true,
+    "message": "✅ Scan completed: ${findings.total} issues found",
+    "updateDashboard": true
+  },
+  "onFailure": {
+    "notify": true,
+    "message": "❌ Scan failed: ${error.message}",
+    "retry": {
+      "attempts": 3,
+      "backoff": "exponential"
+    }
+  },
+  "metadata": {
+    "author": "GhostOps",
+    "version": "1.0.0",
+    "tags": ["security", "automation", "ci-cd"]
+  }
+}
