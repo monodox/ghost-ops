@@ -1,0 +1,12 @@
+{
+  "name": "👻 Spooky Commit Message Check",
+  "description": "Ensures commit messages maintain the spooky theme with ghost emoji",
+  "trigger": {
+    "type": "onGitCommit"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "🎃 Commit detected! Remember to:\n- Use spooky terminology (haunted, spectral, phantom)\n- Add a ghost emoji 👻 to your commit message\n- Keep the Halloween vibe alive!\n\nExample: '👻 Add spectral scan animation to repository cards'"
+  },
+  "enabled": true
+}

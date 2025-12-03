@@ -1,0 +1,13 @@
+{
+  "name": "🔒 API Route Security Check",
+  "description": "Reminds to add authentication checks when creating new API routes",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "src/app/api/**/route.ts"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "🔐 New API route detected at {{filePath}}!\n\n👻 Security checklist:\n- [ ] Authentication check (getOctokitOrNull)\n- [ ] Input validation\n- [ ] Error handling with try-catch\n- [ ] Rate limiting consideration\n- [ ] Spooky error messages\n\nNeed help adding security measures?"
+  },
+  "enabled": true
+}

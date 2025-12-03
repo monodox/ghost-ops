@@ -1,0 +1,74 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"],
+      "disabled": false,
+      "autoApprove": [
+        "fetch"
+      ],
+      "description": "🌐 Fetch MCP server for making HTTP requests to external APIs (security scanning APIs, vulnerability databases)"
+    },
+    "github": {
+      "command": "uvx",
+      "args": ["mcp-server-github"],
+      "disabled": true,
+      "autoApprove": [
+        "create_or_update_file",
+        "search_repositories",
+        "create_issue",
+        "create_pull_request",
+        "get_file_contents",
+        "push_files"
+      ],
+      "description": "👻 GitHub MCP server - DISABLED by default. Enable after: 1) Install uv, 2) Set GITHUB_PERSONAL_ACCESS_TOKEN in .env.local, 3) Approve environment variables in Kiro"
+    },
+    "filesystem": {
+      "command": "uvx",
+      "args": ["mcp-server-filesystem"],
+      "disabled": true,
+      "autoApprove": [
+        "read_file",
+        "list_directory",
+        "search_files"
+      ],
+      "description": "📁 Filesystem MCP server - DISABLED by default. Enable after installing uv and approving workspaceFolder variable"
+    },
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git"],
+      "disabled": true,
+      "autoApprove": [
+        "git_status",
+        "git_diff",
+        "git_log",
+        "git_commit"
+      ],
+      "description": "🔀 Git MCP server - DISABLED by default. Enable after installing uv and approving workspaceFolder variable"
+    },
+    "brave-search": {
+      "command": "uvx",
+      "args": ["mcp-server-brave-search"],
+      "disabled": true,
+      "autoApprove": [],
+      "description": "🔍 Brave Search MCP server - Requires BRAVE_API_KEY. Get API key at https://brave.com/search/api/"
+    },
+    "postgres": {
+      "command": "uvx",
+      "args": ["mcp-server-postgres", "postgresql://localhost/ghostops"],
+      "disabled": true,
+      "autoApprove": [
+        "query",
+        "list_tables"
+      ],
+      "description": "🗄️ PostgreSQL MCP server - Requires PostgreSQL database setup"
+    },
+    "puppeteer": {
+      "command": "uvx",
+      "args": ["mcp-server-puppeteer"],
+      "disabled": true,
+      "autoApprove": [],
+      "description": "🎭 Puppeteer MCP server - Resource intensive, enable only when needed for browser automation"
+    }
+  }
+}

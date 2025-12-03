@@ -1,0 +1,13 @@
+{
+  "name": "📝 Update README on New Feature",
+  "description": "Reminds Kiro to update README.md when new pages or major features are added",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "src/app/**/page.tsx"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "👻 A new page was created at {{filePath}}. Consider updating README.md with:\n- Feature description\n- Usage instructions\n- Screenshots or demo info\n\nShould I help update the README?"
+  },
+  "enabled": true
+}

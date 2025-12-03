@@ -1,0 +1,13 @@
+{
+  "name": "👻 Format Code on Save",
+  "description": "Automatically formats TypeScript/React files when saved to maintain spooky code consistency",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "**/*.{ts,tsx,js,jsx}"
+  },
+  "action": {
+    "type": "executeCommand",
+    "command": "npm run lint -- --fix {{filePath}}"
+  },
+  "enabled": true
+}

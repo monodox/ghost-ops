@@ -1,37 +1,31 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Ghost, ArrowLeft, FileText } from "lucide-react"
+import { FileText, ArrowLeft } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
-      {/* Header */}
-      <header className="border-b border-purple-500/30 bg-slate-900/50 backdrop-blur-lg">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Ghost className="w-6 h-6 text-purple-400 animate-pulse" />
-            <span className="text-xl font-bold text-white">GhostOps</span>
-          </Link>
-          <Link href="/">
-            <Button variant="outline" size="sm" className="border-purple-500/30 hover:bg-purple-500/20">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
-        </div>
-      </header>
-
-      {/* Content */}
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
+          <Link href="/auth/login">
+            <Button
+              variant="ghost"
+              className="mb-6 text-slate-400 hover:text-purple-400 hover:bg-purple-500/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Login
+            </Button>
+          </Link>
+          
           <Card className="bg-slate-900/80 backdrop-blur-xl border-purple-500/50">
             <CardHeader>
               <div className="flex items-center gap-3 mb-4">

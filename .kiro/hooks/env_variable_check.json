@@ -1,0 +1,13 @@
+{
+  "name": "🔑 Environment Variable Check",
+  "description": "Reminds to update .env.example when new environment variables are used",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "**/*.{ts,tsx}"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "🔑 Detected potential environment variable usage!\n\nIf you added a new `process.env.*` variable:\n- [ ] Add it to `.env.example` with description\n- [ ] Document it in README.md setup guide\n- [ ] Add validation in the code\n- [ ] Update deployment docs\n\n👻 Keep those secrets secret!"
+  },
+  "enabled": false
+}

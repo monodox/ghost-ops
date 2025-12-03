@@ -1,0 +1,13 @@
+{
+  "name": "🧪 Run Tests on Component Change",
+  "description": "Automatically runs related tests when a component file is modified",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "src/components/**/*.{ts,tsx}"
+  },
+  "action": {
+    "type": "executeCommand",
+    "command": "npm test -- {{filePathWithoutExtension}}.test.tsx --run"
+  },
+  "enabled": true
+}

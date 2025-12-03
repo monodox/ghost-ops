@@ -49,13 +49,18 @@ export default function RepositoriesPage() {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          setError(data.error)
+          // Check if error is related to GitHub authentication
+          if (data.error.includes("Not Found") || data.error.includes("Unauthorized") || data.error.includes("No token")) {
+            setError("👻 Spooky! You need to connect your GitHub account to see your repositories. Please sign in with GitHub to start haunting your codebase!")
+          } else {
+            setError(data.error)
+          }
         } else {
           setRepos(data.repos || [])
         }
       })
       .catch(err => {
-        setError("Failed to fetch repositories")
+        setError("Failed to fetch repositories. Make sure your GitHub account is connected!")
         console.error(err)
       })
       .finally(() => setLoading(false))
@@ -84,7 +89,12 @@ export default function RepositoriesPage() {
       const data = await res.json()
 
       if (data.error) {
-        alert(`Error: ${data.error}`)
+        // Check if error is related to GitHub authentication
+        if (data.error.includes("Not Found") || data.error.includes("Unauthorized") || data.error.includes("authentication")) {
+          alert("👻 Boo! You need to connect your GitHub account first to create repositories. Please sign in with GitHub to continue haunting your codebase!")
+        } else {
+          alert(`Error: ${data.error}`)
+        }
       } else {
         setShowCreateModal(false)
         setNewRepo({ name: "", description: "", private: false })
@@ -92,7 +102,7 @@ export default function RepositoriesPage() {
         alert(`✅ Repository "${data.repo.name}" created successfully!`)
       }
     } catch (err) {
-      alert("Failed to create repository")
+      alert("👻 Failed to create repository. Make sure your GitHub account is connected!")
       console.error(err)
     } finally {
       setCreating(false)

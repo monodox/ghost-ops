@@ -1,0 +1,13 @@
+{
+  "name": "⚡ Animation Performance Reminder",
+  "description": "Reminds to optimize animations when Framer Motion is heavily used",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "src/**/*.tsx"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "🎨 Animation detected! Performance tips:\n- Use `will-change` CSS for animated properties\n- Prefer `transform` and `opacity` for 60fps\n- Use `layoutId` for shared element transitions\n- Consider `useReducedMotion` for accessibility\n- Keep animations under 1.5s for best UX\n\n👻 Keep those ghosts floating smoothly!"
+  },
+  "enabled": false
+}

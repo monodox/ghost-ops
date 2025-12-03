@@ -1,11 +1,38 @@
 "use client"
 
-import { Bell, User, Search, PanelLeft, PanelRight } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { Bell, User, Search, PanelLeft, PanelRight, Settings, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "./sidebar-context"
+import { useRouter } from "next/navigation"
 
 export function ConsoleHeader() {
   const { isOpen, setIsOpen } = useSidebar()
+  const [showProfileMenu, setShowProfileMenu] = useState(false)
+  const profileMenuRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setShowProfileMenu(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const handleLogout = () => {
+    // TODO: Clear authentication
+    router.push("/auth/login")
+  }
+
+  const handleProfile = () => {
+    setShowProfileMenu(false)
+    router.push("/console/settings")
+  }
 
   return (
     <header className={`fixed top-0 right-0 h-16 border-b border-purple-500/30 bg-slate-900/80 backdrop-blur-lg z-50 transition-all duration-300 ${isOpen ? "left-64" : "left-16"}`}>
@@ -42,14 +69,40 @@ export function ConsoleHeader() {
             <Bell className="w-5 h-5 text-slate-300" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-purple-500/20 transition-colors"
-            title="User Profile"
-          >
-            <User className="w-5 h-5 text-slate-300" />
-          </Button>
+          
+          {/* Profile Dropdown */}
+          <div className="relative" ref={profileMenuRef}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-purple-500/20 transition-colors"
+              title="User Profile"
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+            >
+              <User className="w-5 h-5 text-slate-300" />
+            </Button>
+
+            {/* Dropdown Menu */}
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-slate-900 border border-purple-500/30 rounded-lg shadow-lg shadow-purple-500/20 overflow-hidden">
+                <button
+                  onClick={handleProfile}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-slate-300 hover:bg-purple-500/20 transition-colors"
+                >
+                  <Settings className="w-4 h-4" />
+                  <span>Profile Settings</span>
+                </button>
+                <div className="border-t border-purple-500/30"></div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-red-400 hover:bg-red-500/20 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

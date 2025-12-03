@@ -30,22 +30,62 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
+    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Floating ghosts background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Left side ghosts */}
         <motion.div
-          className="absolute top-20 left-20"
-          animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity }}
+          className="absolute top-20 left-10"
+          animate={{ y: [0, -25, 0], x: [0, 10, 0], opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Ghost className="w-16 h-16 text-purple-500/30" />
+          <Ghost className="w-12 h-12 text-purple-400/30" />
         </motion.div>
         <motion.div
-          className="absolute bottom-20 right-20"
-          animate={{ y: [0, -30, 0], opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+          className="absolute top-1/3 left-20"
+          animate={{ y: [0, -30, 0], x: [0, -15, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 5, repeat: Infinity, delay: 1, ease: "easeInOut" }}
+        >
+          <Ghost className="w-16 h-16 text-purple-500/25" />
+        </motion.div>
+        <motion.div
+          className="absolute bottom-32 left-16"
+          animate={{ y: [0, -20, 0], x: [0, 12, 0], opacity: [0.25, 0.55, 0.25] }}
+          transition={{ duration: 7, repeat: Infinity, delay: 2, ease: "easeInOut" }}
+        >
+          <Ghost className="w-14 h-14 text-purple-300/20" />
+        </motion.div>
+
+        {/* Right side ghosts */}
+        <motion.div
+          className="absolute top-24 right-16"
+          animate={{ y: [0, -28, 0], x: [0, -10, 0], opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 5.5, repeat: Infinity, delay: 0.5, ease: "easeInOut" }}
+        >
+          <Ghost className="w-14 h-14 text-purple-400/25" />
+        </motion.div>
+        <motion.div
+          className="absolute top-1/2 right-12"
+          animate={{ y: [0, -35, 0], x: [0, 15, 0], opacity: [0.3, 0.65, 0.3] }}
+          transition={{ duration: 6.5, repeat: Infinity, delay: 1.5, ease: "easeInOut" }}
         >
           <Ghost className="w-20 h-20 text-purple-500/20" />
+        </motion.div>
+        <motion.div
+          className="absolute bottom-28 right-20"
+          animate={{ y: [0, -22, 0], x: [0, -12, 0], opacity: [0.25, 0.5, 0.25] }}
+          transition={{ duration: 6, repeat: Infinity, delay: 2.5, ease: "easeInOut" }}
+        >
+          <Ghost className="w-16 h-16 text-purple-400/30" />
+        </motion.div>
+
+        {/* Center floating ghosts */}
+        <motion.div
+          className="absolute top-16 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, -30, 0], opacity: [0.15, 0.4, 0.15] }}
+          transition={{ duration: 8, repeat: Infinity, delay: 3, ease: "easeInOut" }}
+        >
+          <Ghost className="w-10 h-10 text-purple-300/20" />
         </motion.div>
       </div>
 

@@ -34,7 +34,7 @@ export async function GET(req: Request) {
     return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=token_failed`)
   }
   const cookie = createTokenCookie(data.access_token)
-  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/console/settings`
+  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/console/dashboard`
   return NextResponse.redirect(redirectUrl, {
     headers: { "Set-Cookie": cookie },
   })
