@@ -28,15 +28,15 @@ const itemVariants = {
 }
 
 export default function RepositoriesPage() {
-  const [repos, setRepos] = useState<any[]>([])
+  const [repos, setRepos] = useState<{ id: number; name: string; full_name: string; private: boolean; html_url: string; updated_at: string }[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [creating, setCreating] = useState(false)
   const [scanningRepos, setScanningRepos] = useState<Set<number>>(new Set())
-  const [scanResults, setScanResults] = useState<Map<number, any>>(new Map())
+  const [scanResults, setScanResults] = useState<Map<number, { healthScore: number; findings: { critical: number; high: number; medium: number; low: number; total: number }; duration: string; filesScanned: number; repository: string }>>(new Map())
   const [showScanResultModal, setShowScanResultModal] = useState(false)
-  const [currentScanResult, setCurrentScanResult] = useState<any>(null)
+  const [currentScanResult, setCurrentScanResult] = useState<{ healthScore: number; findings: { critical: number; high: number; medium: number; low: number; total: number }; duration: string; filesScanned: number; repository: string } | null>(null)
   const [newRepo, setNewRepo] = useState({
     name: "",
     description: "",
@@ -109,7 +109,7 @@ export default function RepositoriesPage() {
     }
   }
 
-  const handleScanRepo = async (repo: any) => {
+  const handleScanRepo = async (repo: { id: number; name: string; full_name: string; private: boolean; html_url: string; updated_at: string }) => {
     // Extract owner and repo name from full_name
     const [owner, repoName] = repo.full_name.split("/")
     
@@ -630,7 +630,7 @@ function RepoCard({
   }
   onScan: () => void
   isScanning: boolean
-  scanResult?: any
+  scanResult?: { healthScore: number; findings: { critical: number; high: number; medium: number; low: number; total: number }; duration: string; filesScanned: number; repository: string }
 }) {
   const statusConfig = {
     healthy: {

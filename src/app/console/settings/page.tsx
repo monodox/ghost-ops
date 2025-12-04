@@ -31,7 +31,7 @@ export default function SettingsPage() {
   const [spookyMode, setSpookyMode] = useState(true)
   const [autoScan, setAutoScan] = useState(false)
   const [notifications, setNotifications] = useState(false)
-  const [githubUser, setGithubUser] = useState<any>(null)
+  const [githubUser, setGithubUser] = useState<{ login: string; name: string; avatar_url: string } | null>(null)
   const [loading, setLoading] = useState(true)
 
   // Check GitHub connection status
