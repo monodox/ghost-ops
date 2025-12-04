@@ -14,8 +14,9 @@ export async function GET(req: Request) {
       avatar_url: data.avatar_url,
       email: data.email,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch user'
     console.error("Failed to fetch user:", error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }

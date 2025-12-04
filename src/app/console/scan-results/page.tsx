@@ -2,10 +2,10 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Clock, AlertTriangle, XCircle, CheckCircle2, Filter, Ghost, FileCode } from "lucide-react"
+import { Clock, AlertTriangle, XCircle, Filter, Ghost, FileCode } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 
 const containerVariants = {
@@ -43,7 +43,7 @@ export default function ScanResultsPage() {
     low: 0
   }
 
-  const findings: any[] = []
+  const findings: { id: string; severity: string; title: string; description: string; file: string; line: number; category: string }[] = []
 
   const filteredFindings = selectedSeverity === "all" 
     ? findings 
@@ -294,7 +294,7 @@ function SeverityCard({
   )
 }
 
-function FindingCard({ finding }: { finding: any }) {
+function FindingCard({ finding }: { finding: { id: string; severity: string; title: string; description: string; file: string; line: number; category: string } }) {
   const severityConfig = {
     critical: {
       color: "border-red-500/30 bg-red-950/20",

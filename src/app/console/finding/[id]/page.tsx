@@ -1,11 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowLeft, Ghost, FileCode, AlertTriangle, Sparkles, GitPullRequest, Copy, CheckCircle2 } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowLeft, Ghost } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useState } from "react"
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,7 +31,7 @@ const itemVariants = {
 
 export default function FindingDetailPage({ params }: { params: { id: string } }) {
   // In real app, fetch based on params.id
-  const finding = null
+
 
   // Show empty state when no finding data
   return (

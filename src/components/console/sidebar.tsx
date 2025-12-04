@@ -18,7 +18,7 @@ const navItems = [
 
 export function ConsoleSidebar() {
   const pathname = usePathname()
-  const { isOpen, setIsOpen } = useSidebar()
+  const { isOpen } = useSidebar()
 
   return (
     <aside className={`fixed left-0 top-0 bottom-0 border-r border-purple-500/30 bg-slate-900/50 backdrop-blur flex flex-col transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}>

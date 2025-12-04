@@ -23,7 +23,7 @@ export function verifyStateFromRequest(req: Request) {
   const token = parsed[STATE_COOKIE]
   if (!token) return null
   try {
-    const data = jwt.verify(token, SECRET) as any
+    const data = jwt.verify(token, SECRET) as { state: string }
     return data.state as string
   } catch {
     return null

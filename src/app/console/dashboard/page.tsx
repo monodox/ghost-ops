@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Ghost, Shield, AlertTriangle, CheckCircle2, Play, Eye, TrendingUp, Activity } from "lucide-react"
+import { Ghost, Shield, AlertTriangle, CheckCircle2, Play, Eye, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -230,19 +230,16 @@ export default function DashboardPage() {
           title="View All Findings"
           description="Review detailed security vulnerabilities"
           icon={<Eye className="w-6 h-6" />}
-          href="/console/findings"
         />
         <QuickActionCard
           title="Manage Repositories"
           description="Add or configure repositories"
           icon={<Shield className="w-6 h-6" />}
-          href="/console/repositories"
         />
         <QuickActionCard
           title="Configure Hooks"
           description="Set up automated scanning"
           icon={<Activity className="w-6 h-6" />}
-          href="/console/settings"
         />
       </motion.div>
     </motion.div>
@@ -283,44 +280,16 @@ function StatCard({
   )
 }
 
-function ScanItem({
-  repo,
-  time,
-  status,
-  issues
-}: {
-  repo: string
-  time: string
-  status: string
-  issues: number
-}) {
-  return (
-    <div className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border border-purple-500/20">
-      <div className="flex items-center gap-3">
-        <Ghost className="w-5 h-5 text-purple-400" />
-        <div>
-          <p className="text-sm font-medium text-white">{repo}</p>
-          <p className="text-xs text-slate-400">{time}</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-3">
-        <span className="text-sm text-yellow-400">{issues} issues</span>
-        <CheckCircle2 className="w-5 h-5 text-green-500" />
-      </div>
-    </div>
-  )
-}
+
 
 function QuickActionCard({
   title,
   description,
-  icon,
-  href
+  icon
 }: {
   title: string
   description: string
   icon: React.ReactNode
-  href: string
 }) {
   return (
     <Card className="bg-slate-900/50 border-purple-500/30 hover:border-purple-500/60 transition-colors cursor-pointer">

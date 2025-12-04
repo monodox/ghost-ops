@@ -27,10 +27,11 @@ export async function POST(req: Request) {
         private: data.private,
       }
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create repository'
     console.error("Failed to create repo:", error)
     return NextResponse.json({ 
-      error: error.message || "Failed to create repository" 
+      error: errorMessage 
     }, { status: 500 })
   }
 }

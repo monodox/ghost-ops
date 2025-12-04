@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { Terminal as TerminalIcon, Ghost, Zap } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 export default function TerminalPage() {
@@ -125,7 +125,7 @@ export default function TerminalPage() {
       output = [
         "",
         `Command not found: ${trimmed}`,
-        "Type 'ghost help' for available commands",
+        "Type &apos;ghost help&apos; for available commands",
         ""
       ]
     }

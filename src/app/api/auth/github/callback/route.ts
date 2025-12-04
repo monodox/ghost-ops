@@ -28,7 +28,7 @@ export async function GET(req: Request) {
       code,
     }),
   })
-  const data: any = await res.json()
+  const data: { access_token?: string; error?: string } = await res.json()
   if (!data.access_token) {
     console.error("token exchange failed", data)
     return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=token_failed`)

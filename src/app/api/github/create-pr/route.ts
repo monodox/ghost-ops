@@ -40,8 +40,9 @@ export async function POST(req: Request) {
     })
 
     return NextResponse.json({ prUrl: pr.data.html_url, prNumber: pr.data.number })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     console.error("Failed to create PR:", error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }

@@ -17,8 +17,9 @@ export async function GET(req: Request) {
       updated_at: r.updated_at,
     }))
     return NextResponse.json({ repos })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch repos'
     console.error("Failed to fetch repos:", error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }

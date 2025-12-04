@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Activity, Ghost, GitPullRequest, AlertTriangle, Terminal, Zap, Clock } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const containerVariants = {
@@ -27,7 +27,7 @@ const itemVariants = {
 }
 
 export default function ActivityLogPage() {
-  const activities: any[] = []
+  const activities: { id: string; type: string; title: string; description: string; details: string; timestamp: string; severity: string }[] = []
 
   return (
     <motion.div 
@@ -159,7 +159,7 @@ function StatCard({
 }
 
 
-function ActivityCard({ activity }: { activity: any }) {
+function ActivityCard({ activity }: { activity: { id: string; type: string; title: string; description: string; details: string; timestamp: string; severity: string } }) {
   const typeConfig = {
     scan: {
       icon: <Ghost className="w-5 h-5 text-purple-400" />,

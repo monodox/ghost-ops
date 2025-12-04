@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+
 import { motion } from "framer-motion"
 import { GitPullRequest, CheckCircle2, Clock, XCircle, Play, RotateCcw, Eye, Sparkles } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -29,7 +29,7 @@ const itemVariants = {
 }
 
 export default function RemediationsPage() {
-  const remediations: any[] = []
+  const remediations: { id: string; status: string; title: string; finding: string; repository: string; createdAt: string; script: string; prUrl?: string; type: string }[] = []
 
   return (
     <motion.div 
@@ -150,8 +150,7 @@ function StatCard({
 }
 
 
-function RemediationCard({ remediation }: { remediation: any }) {
-  const [showWave, setShowWave] = useState(false)
+function RemediationCard({ remediation }: { remediation: { id: string; status: string; title: string; finding: string; repository: string; createdAt: string; script: string; prUrl?: string; type: string } }) {
   
   const statusConfig = {
     pending: {
