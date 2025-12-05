@@ -11,8 +11,8 @@ export function signStateCookie(state: string) {
   return serialize(STATE_COOKIE, token, {
     httpOnly: true,
     path: "/",
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
+    secure: true,
     maxAge: 60 * 10,
   })
 }
@@ -33,8 +33,8 @@ export function verifyStateFromRequest(req: Request) {
 export function createTokenCookie(accessToken: string) {
   return serialize(TOKEN_COOKIE, accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
   })
