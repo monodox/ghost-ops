@@ -127,6 +127,7 @@ export default function SignupPage() {
                     id="signup-name"
                     name="name"
                     type="text"
+                    autoComplete="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name"
@@ -145,6 +146,7 @@ export default function SignupPage() {
                     id="signup-email"
                     name="email"
                     type="email"
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="ghost@example.com"
@@ -163,6 +165,7 @@ export default function SignupPage() {
                     id="signup-password"
                     name="password"
                     type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
@@ -191,6 +194,7 @@ export default function SignupPage() {
                     id="signup-confirm-password"
                     name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="new-password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
