@@ -12,6 +12,8 @@
 
 *GhostOps haunts your codebase to detect spectral vulnerabilities, phantom misconfigurations, and ghostly security issues. Built with AI-powered remediation using Kiro's hooks, specs, and steering capabilities.*
 
+**🔗 [Live Demo](https://main.d11z5z65fth503.amplifyapp.com)** • **📦 [GitHub Repository](https://github.com/monodox/ghost-ops)**
+
 [Features](#-features) • [Demo](#-demo) • [Quick Start](#-quick-start) • [Setup Guide](#-complete-setup-guide) • [Usage](#-usage) • [Contributing](#-contributing)
 
 </div>
@@ -74,6 +76,26 @@ GhostOps is a spooky security scanner built for the **Kiroween Hackathon (Franke
 
 ## 🎬 Demo
 
+**🌐 Live Demo:** [https://main.d11z5z65fth503.amplifyapp.com](https://main.d11z5z65fth503.amplifyapp.com)
+
+**📦 GitHub Repository:** [https://github.com/monodox/ghost-ops](https://github.com/monodox/ghost-ops)
+
+### Demo Credentials
+
+Try the full experience without GitHub OAuth:
+
+```
+Email: test@example.com
+Password: password
+```
+
+This demo mode includes:
+- ✅ 3 sample repositories with realistic data
+- ✅ Pre-populated scan results and findings
+- ✅ Full dashboard with health scores
+- ✅ Activity log with recent events
+- ✅ All features unlocked for testing
+
 ### Dashboard
 The main dashboard shows your "Haunted Health Score" with real-time security metrics:
 - Overall security posture (0-100 score)
@@ -129,8 +151,8 @@ Comprehensive vulnerability analysis including:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/ghostops.git
-   cd ghostops
+   git clone https://github.com/monodox/ghost-ops.git
+   cd ghost-ops
    ```
 
 2. **Install dependencies**
@@ -832,14 +854,7 @@ Found a security vulnerability? Please see our [Security Policy](SECURITY.md) fo
 
 **Do not** open public issues for security vulnerabilities.
 
-## 📞 Contact & Support
-
-- **Issues** - [GitHub Issues](https://github.com/yourusername/ghostops/issues)
-- **Discussions** - [GitHub Discussions](https://github.com/yourusername/ghostops/discussions)
-- **Email** - security@ghostops.dev
-- **Twitter** - [@GhostOpsSec](https://twitter.com/ghostopssec)
-
-## � Additionalm Documentation
+## � Addtitional Documentation
 
 ### Kiro Features
 - **[Complete Features Summary](.kiro/KIRO_FEATURES_SUMMARY.md)** - Comprehensive overview of all 5 Kiro features
