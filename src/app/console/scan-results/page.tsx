@@ -292,7 +292,7 @@ export default function ScanResultsPage() {
               initial="hidden"
               animate="visible"
             >
-              {filteredFindings.map((finding, index) => (
+              {filteredFindings.map((finding: any, index: number) => (
                 <motion.div
                   key={finding.id}
                   variants={itemVariants}

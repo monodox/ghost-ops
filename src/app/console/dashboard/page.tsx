@@ -2,10 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Ghost, Shield, AlertTriangle, CheckCircle2, Play, Eye, Activity } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Ghost, Shield, AlertTriangle, CheckCircle2, Eye, Activity } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import { MOCK_DASHBOARD_STATS } from "@/lib/mockData"
 
 const containerVariants = {
@@ -30,8 +28,6 @@ const itemVariants = {
 }
 
 export default function DashboardPage() {
-  const [scanning, setScanning] = useState(false)
-  const [progress, setProgress] = useState(0)
   const [stats, setStats] = useState<any>(null)
 
   useEffect(() => {
@@ -42,22 +38,6 @@ export default function DashboardPage() {
       setStats(MOCK_DASHBOARD_STATS)
     }
   }, [])
-
-  const startScan = () => {
-    setScanning(true)
-    setProgress(0)
-
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          setScanning(false)
-          return 100
-        }
-        return prev + 10
-      })
-    }, 300)
-  }
 
   return (
     <motion.div 
@@ -123,41 +103,18 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <Progress value={stats ? stats.averageHealthScore : 0} className="h-3" />
+            <div className="w-full bg-slate-800 rounded-full h-3">
+              <div 
+                className="h-3 rounded-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-500"
+                style={{ width: `${stats ? stats.averageHealthScore : 0}%` }}
+              />
+            </div>
             <p className="text-xs text-slate-400 mt-2">
               {stats ? `${stats.totalFindings} total findings across ${stats.totalRepos} repositories` : 'Run a scan to calculate your security score'}
             </p>
           </CardContent>
         </Card>
       </motion.div>
-
-      {/* Scanning Progress */}
-      {scanning && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-        >
-          <Card className="bg-slate-900/50 border-purple-500/30">
-            <CardHeader>
-              <CardTitle className="text-purple-300 flex items-center gap-2">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                >
-                  <Activity className="w-5 h-5" />
-                </motion.div>
-                Scanning Repository...
-              </CardTitle>
-              <CardDescription>Detecting security vulnerabilities and compliance issues</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Progress value={progress} className="w-full" />
-              <p className="text-sm text-slate-400 mt-2">{progress}% complete</p>
-            </CardContent>
-          </Card>
-        </motion.div>
-      )}
 
       {/* Stats Grid */}
       <motion.div 
