@@ -20,6 +20,32 @@
 
 ---
 
+## 🚀 Try It Now
+
+### Two Ways to Experience GhostOps:
+
+#### 1️⃣ **Demo Mode** (No GitHub Required)
+Try the full interface with mock data:
+```
+Email: test@example.com
+Password: password
+```
+✅ Explore all features  
+✅ View sample repositories  
+✅ See mock scan results  
+✅ Test the UI/UX  
+
+#### 2️⃣ **Live Mode** (GitHub OAuth)
+Connect your real GitHub repositories:
+- Click "Continue with GitHub"
+- Authorize GhostOps
+- Scan your actual repositories
+- Get real security insights
+
+**🔗 [Start Now →](https://main.d11z5z65fth503.amplifyapp.com)**
+
+---
+
 ## 🎃 About
 
 GhostOps is a spooky security scanner built for the **Kiroween Hackathon (Frankenstein Category)**. It combines automated security scanning with AI-powered remediation, featuring a haunted terminal-style interface that makes security fun and accessible.
