@@ -267,8 +267,11 @@ export default function TerminalPage() {
               </div>
             ))}
             <div className="flex items-center gap-2 text-purple-400">
+              <label htmlFor="terminal-input" className="sr-only">Terminal command input</label>
               <span>$</span>
               <input
+                id="terminal-input"
+                name="command"
                 ref={inputRef}
                 type="text"
                 value={currentCommand}
@@ -276,6 +279,7 @@ export default function TerminalPage() {
                 onKeyDown={handleKeyDown}
                 className="flex-1 bg-transparent outline-none text-green-300 caret-green-400"
                 autoFocus
+                aria-label="Terminal command input"
                 style={{ textShadow: "0 0 5px rgba(34, 197, 94, 0.5)" }}
               />
               <span className="animate-pulse">▊</span>

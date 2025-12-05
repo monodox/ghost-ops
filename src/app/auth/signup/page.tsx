@@ -120,10 +120,12 @@ export default function SignupPage() {
             <form onSubmit={handleEmailSignup} className="space-y-4">
               {/* Name */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300">Name</label>
+                <label htmlFor="signup-name" className="text-sm font-medium text-slate-300">Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
+                    id="signup-name"
+                    name="name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -136,10 +138,12 @@ export default function SignupPage() {
 
               {/* Email */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300">Email</label>
+                <label htmlFor="signup-email" className="text-sm font-medium text-slate-300">Email</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
+                    id="signup-email"
+                    name="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -152,10 +156,12 @@ export default function SignupPage() {
 
               {/* Password */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300">Password</label>
+                <label htmlFor="signup-password" className="text-sm font-medium text-slate-300">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
+                    id="signup-password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -168,6 +174,7 @@ export default function SignupPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-purple-400 transition-colors"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -177,10 +184,12 @@ export default function SignupPage() {
 
               {/* Confirm Password */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300">Confirm Password</label>
+                <label htmlFor="signup-confirm-password" className="text-sm font-medium text-slate-300">Confirm Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
+                    id="signup-confirm-password"
+                    name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -192,6 +201,7 @@ export default function SignupPage() {
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-purple-400 transition-colors"
+                    aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                   >
                     {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
