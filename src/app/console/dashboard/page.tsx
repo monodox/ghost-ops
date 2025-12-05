@@ -68,21 +68,10 @@ export default function DashboardPage() {
     >
       {/* Header */}
       <motion.div 
-        className="flex items-center justify-between"
         variants={itemVariants}
       >
-        <div>
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-purple-300 mt-1">Monitor your repository security posture</p>
-        </div>
-        <Button 
-          onClick={startScan}
-          disabled={scanning}
-          className="bg-purple-600 hover:bg-purple-700"
-        >
-          <Play className="w-4 h-4 mr-2" />
-          {scanning ? "Scanning..." : "Run Scan"}
-        </Button>
+        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+        <p className="text-purple-300 mt-1">Monitor your repository security posture</p>
       </motion.div>
 
       {/* Haunted Health Score */}

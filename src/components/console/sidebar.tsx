@@ -1,10 +1,12 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { LayoutDashboard, FolderGit2, FileSearch, GitPullRequest, Terminal, Activity, Settings, Ghost } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSidebar } from "./sidebar-context"
+import { MOCK_DASHBOARD_STATS } from "@/lib/mockData"
 
 const navItems = [
   { href: "/console/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -19,6 +21,16 @@ const navItems = [
 export function ConsoleSidebar() {
   const pathname = usePathname()
   const { isOpen } = useSidebar()
+  const [healthScore, setHealthScore] = useState<number | null>(null)
+
+  useEffect(() => {
+    // Check if in demo mode
+    const isDemoMode = typeof window !== 'undefined' && localStorage.getItem("ghostops_demo_mode") === "true"
+    
+    if (isDemoMode) {
+      setHealthScore(MOCK_DASHBOARD_STATS.averageHealthScore)
+    }
+  }, [])
 
   return (
     <aside className={`fixed left-0 top-0 bottom-0 border-r border-purple-500/30 bg-slate-900/50 backdrop-blur flex flex-col transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}>
@@ -82,10 +94,49 @@ export function ConsoleSidebar() {
           {/* Haunted Health Widget */}
           <div className="px-3 py-3 rounded-lg bg-purple-950/30 border border-purple-500/30 mb-4">
             <div className="flex items-center gap-2 mb-2">
-              <Ghost className="w-4 h-4 text-purple-400 animate-pulse" />
+              <motion.div
+                animate={{ 
+                  y: [0, -3, 0],
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <Ghost className="w-4 h-4 text-purple-400" />
+              </motion.div>
               <span className="text-xs font-semibold text-purple-300">Haunted Health</span>
             </div>
-            <div className="text-2xl font-bold text-slate-600">--</div>
+            <div className={`text-2xl font-bold ${
+              healthScore !== null 
+                ? healthScore >= 80 
+                  ? 'text-green-400' 
+                  : healthScore >= 60 
+                    ? 'text-yellow-400' 
+                    : 'text-red-400'
+                : 'text-slate-600'
+            }`}>
+              {healthScore !== null ? healthScore : '--'}
+            </div>
+            {healthScore !== null && (
+              <div className="mt-1">
+                <div className="w-full bg-slate-800 rounded-full h-1.5">
+                  <motion.div 
+                    className={`h-1.5 rounded-full ${
+                      healthScore >= 80 
+                        ? 'bg-green-400' 
+                        : healthScore >= 60 
+                          ? 'bg-yellow-400' 
+                          : 'bg-red-400'
+                    }`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${healthScore}%` }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Version Info */}

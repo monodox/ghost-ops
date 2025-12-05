@@ -1,12 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Clock, AlertTriangle, XCircle, Filter, Ghost, FileCode } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Clock, AlertTriangle, XCircle, Filter, Ghost, FileCode, Activity } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Progress } from "@/components/ui/progress"
 import Link from "next/link"
+import { MOCK_REPOSITORIES, MOCK_SCAN_RESULTS } from "@/lib/mockData"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,8 +33,57 @@ const itemVariants = {
 
 export default function ScanResultsPage() {
   const [selectedSeverity, setSelectedSeverity] = useState("all")
+  const [isDemoMode, setIsDemoMode] = useState(false)
+  const [scanning, setScanning] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [scanData, setScanData] = useState<any>(null)
 
-  const scanInfo = {
+  useEffect(() => {
+    const demoMode = typeof window !== 'undefined' && localStorage.getItem("ghostops_demo_mode") === "true"
+    setIsDemoMode(demoMode)
+    
+    if (demoMode) {
+      // Load first repository scan results by default
+      const firstRepo = MOCK_REPOSITORIES[0]
+      const scanResult = MOCK_SCAN_RESULTS[firstRepo.id as keyof typeof MOCK_SCAN_RESULTS]
+      setScanData(scanResult)
+    }
+  }, [])
+
+  const runNewScan = () => {
+    setScanning(true)
+    setProgress(0)
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval)
+          setScanning(false)
+          
+          // After scan completes, show results
+          if (isDemoMode) {
+            const randomRepo = MOCK_REPOSITORIES[Math.floor(Math.random() * MOCK_REPOSITORIES.length)]
+            const scanResult = MOCK_SCAN_RESULTS[randomRepo.id as keyof typeof MOCK_SCAN_RESULTS]
+            setScanData(scanResult)
+          }
+          
+          return 100
+        }
+        return prev + 10
+      })
+    }, 400)
+  }
+
+  const scanInfo = scanData ? {
+    timestamp: new Date(scanData.timestamp).toLocaleString(),
+    duration: `${scanData.duration}s`,
+    repository: scanData.repository,
+    totalFindings: scanData.findings.critical + scanData.findings.high + scanData.findings.medium + scanData.findings.low,
+    critical: scanData.findings.critical,
+    high: scanData.findings.high,
+    medium: scanData.findings.medium,
+    low: scanData.findings.low
+  } : {
     timestamp: "--",
     duration: "--",
     repository: "No repository selected",
@@ -43,11 +94,11 @@ export default function ScanResultsPage() {
     low: 0
   }
 
-  const findings: { id: string; severity: string; title: string; description: string; file: string; line: number; category: string }[] = []
+  const findings = scanData?.details || []
 
   const filteredFindings = selectedSeverity === "all" 
     ? findings 
-    : findings.filter(f => f.severity === selectedSeverity)
+    : findings.filter((f: any) => f.severity === selectedSeverity)
 
   return (
     <div className="space-y-6 relative">
@@ -79,12 +130,61 @@ export default function ScanResultsPage() {
           <p className="text-purple-300 mt-1">Latest security scan findings</p>
         </div>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Button className="bg-purple-600 hover:bg-purple-700">
-            <Ghost className="w-4 h-4 mr-2" />
-            Run New Scan
+          <Button 
+            onClick={runNewScan}
+            disabled={scanning}
+            className="bg-purple-600 hover:bg-purple-700"
+          >
+            {scanning ? (
+              <>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                >
+                  <Activity className="w-4 h-4 mr-2" />
+                </motion.div>
+                Scanning...
+              </>
+            ) : (
+              <>
+                <Ghost className="w-4 h-4 mr-2" />
+                Run New Scan
+              </>
+            )}
           </Button>
         </motion.div>
       </motion.div>
+
+      {/* Scanning Progress */}
+      <AnimatePresence>
+        {scanning && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="relative z-10"
+          >
+            <Card className="bg-slate-900/50 border-purple-500/30">
+              <CardHeader>
+                <CardTitle className="text-purple-300 flex items-center gap-2">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Activity className="w-5 h-5" />
+                  </motion.div>
+                  Scanning Repository...
+                </CardTitle>
+                <CardDescription>👻 Detecting security vulnerabilities and compliance issues</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Progress value={progress} className="w-full" />
+                <p className="text-sm text-slate-400 mt-2">{progress}% complete</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Scan Summary */}
       <motion.div

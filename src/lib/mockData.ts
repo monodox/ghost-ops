@@ -224,43 +224,169 @@ export const MOCK_DASHBOARD_STATS = {
 export const MOCK_ACTIVITY_LOG = [
   {
     id: "activity_1",
-    type: "scan_completed",
-    repository: "demo-user/ghost-ops",
-    timestamp: "2024-12-03T08:00:00Z",
-    message: "👻 Scan completed: 24 ghosts detected",
+    type: "scan",
+    title: "👻 Security Scan Completed",
+    description: "Spectral scan detected 24 haunting issues",
+    details: "demo-user/ghost-ops • 1 critical, 3 high, 8 medium, 12 low",
+    timestamp: "2 hours ago",
     severity: "info"
   },
   {
     id: "activity_2",
-    type: "finding_detected",
-    repository: "demo-user/ghost-ops",
-    timestamp: "2024-12-03T08:00:15Z",
-    message: "🚨 Critical vulnerability found: Hardcoded API Key",
+    type: "finding",
+    title: "🚨 Critical Vulnerability Detected",
+    description: "Hardcoded API Key found in configuration",
+    details: "demo-user/ghost-ops • config/settings.ts:42",
+    timestamp: "2 hours ago",
     severity: "critical"
   },
   {
     id: "activity_3",
-    type: "scan_completed",
-    repository: "demo-user/secure-api",
-    timestamp: "2024-12-01T13:00:00Z",
-    message: "✨ Scan completed: Only 7 minor issues found",
+    type: "remediation",
+    title: "✅ Automated Fix Applied",
+    description: "PR created to remove hardcoded credentials",
+    details: "demo-user/ghost-ops • PR #42 opened",
+    timestamp: "1 hour ago",
     severity: "success"
   },
   {
     id: "activity_4",
-    type: "scan_completed",
-    repository: "demo-user/vulnerable-app",
-    timestamp: "2024-11-28T17:00:00Z",
-    message: "⚠️ Scan completed: 50 vulnerabilities detected",
-    severity: "warning"
+    type: "terminal",
+    title: "⚡ Terminal Command Executed",
+    description: "ghost scan command completed successfully",
+    details: "Scanned 247 files in 45 seconds",
+    timestamp: "3 hours ago",
+    severity: "info"
   },
   {
     id: "activity_5",
-    type: "repo_connected",
-    repository: "demo-user/vulnerable-app",
-    timestamp: "2024-11-28T16:45:00Z",
-    message: "🔗 Repository connected for scanning",
+    type: "scan",
+    title: "✨ Clean Scan Result",
+    description: "Only 7 minor issues found in secure-api",
+    details: "demo-user/secure-api • Health Score: 94/100",
+    timestamp: "2 days ago",
+    severity: "success"
+  },
+  {
+    id: "activity_6",
+    type: "finding",
+    title: "⚠️ High Severity Issue Found",
+    description: "SQL Injection vulnerability in database queries",
+    details: "demo-user/ghost-ops • src/db/queries.ts:89",
+    timestamp: "2 days ago",
+    severity: "high"
+  },
+  {
+    id: "activity_7",
+    type: "remediation",
+    title: "🔧 Manual Fix Required",
+    description: "Complex authentication issue needs review",
+    details: "demo-user/vulnerable-app • Awaiting developer action",
+    timestamp: "3 days ago",
     severity: "info"
+  },
+  {
+    id: "activity_8",
+    type: "scan",
+    title: "👻 Haunted Codebase Detected",
+    description: "50 spectral vulnerabilities found",
+    details: "demo-user/vulnerable-app • 5 critical, 8 high, 15 medium, 22 low",
+    timestamp: "5 days ago",
+    severity: "critical"
+  },
+  {
+    id: "activity_9",
+    type: "hook",
+    title: "🪝 Agent Hook Triggered",
+    description: "Format on save hook executed",
+    details: "Auto-formatted 3 TypeScript files",
+    timestamp: "6 hours ago",
+    severity: "info"
+  },
+  {
+    id: "activity_10",
+    type: "terminal",
+    title: "📊 Status Check Completed",
+    description: "ghost status command executed",
+    details: "System health: 78/100 • 3 pending fixes",
+    timestamp: "4 hours ago",
+    severity: "info"
+  }
+]
+
+export const MOCK_REMEDIATIONS = [
+  {
+    id: "rem_1",
+    status: "pr_created",
+    title: "Remove Hardcoded API Keys",
+    finding: "Hardcoded API Key in Configuration",
+    repository: "demo-user/ghost-ops",
+    createdAt: "1 hour ago",
+    type: "automated",
+    script: "Move API keys to environment variables using dotenv. Update config/settings.ts to read from process.env.API_KEY",
+    prUrl: "https://github.com/demo-user/ghost-ops/pull/42"
+  },
+  {
+    id: "rem_2",
+    status: "completed",
+    title: "Update Vulnerable Dependencies",
+    finding: "Outdated packages with known CVEs",
+    repository: "demo-user/secure-api",
+    createdAt: "2 days ago",
+    type: "automated",
+    script: "npm update requests@2.31.0 express@4.18.2 lodash@4.17.21",
+    prUrl: "https://github.com/demo-user/secure-api/pull/15"
+  },
+  {
+    id: "rem_3",
+    status: "pending",
+    title: "Implement CSRF Protection",
+    finding: "Missing CSRF token validation",
+    repository: "demo-user/ghost-ops",
+    createdAt: "2 hours ago",
+    type: "automated",
+    script: "Add csurf middleware to Express app. Generate and validate CSRF tokens for all state-changing operations"
+  },
+  {
+    id: "rem_4",
+    status: "manual",
+    title: "Fix Authentication Flow",
+    finding: "Weak password hashing algorithm",
+    repository: "demo-user/vulnerable-app",
+    createdAt: "3 days ago",
+    type: "manual",
+    script: "Replace MD5 with bcrypt for password hashing. Requires database migration and user password reset"
+  },
+  {
+    id: "rem_5",
+    status: "pending",
+    title: "Sanitize SQL Queries",
+    finding: "SQL Injection vulnerability",
+    repository: "demo-user/ghost-ops",
+    createdAt: "2 hours ago",
+    type: "automated",
+    script: "Replace string concatenation with parameterized queries using prepared statements"
+  },
+  {
+    id: "rem_6",
+    status: "failed",
+    title: "Add Security Headers",
+    finding: "Missing security headers",
+    repository: "demo-user/vulnerable-app",
+    createdAt: "4 days ago",
+    type: "automated",
+    script: "Add helmet middleware to set security headers: CSP, HSTS, X-Frame-Options, etc."
+  },
+  {
+    id: "rem_7",
+    status: "pr_created",
+    title: "Fix Command Injection",
+    finding: "Unsanitized user input in exec()",
+    repository: "demo-user/vulnerable-app",
+    createdAt: "5 days ago",
+    type: "automated",
+    script: "Replace exec() with safer alternatives. Use child_process.spawn() with argument array instead of shell string",
+    prUrl: "https://github.com/demo-user/vulnerable-app/pull/8"
   }
 ]
 

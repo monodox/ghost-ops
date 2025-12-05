@@ -1,11 +1,12 @@
 "use client"
 
-
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { GitPullRequest, CheckCircle2, Clock, XCircle, Play, RotateCcw, Eye, Sparkles } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MOCK_REMEDIATIONS } from "@/lib/mockData"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,7 +30,16 @@ const itemVariants = {
 }
 
 export default function RemediationsPage() {
-  const remediations: { id: string; status: string; title: string; finding: string; repository: string; createdAt: string; script: string; prUrl?: string; type: string }[] = []
+  const [remediations, setRemediations] = useState<typeof MOCK_REMEDIATIONS>([])
+
+  useEffect(() => {
+    // Check if in demo mode
+    const isDemoMode = typeof window !== 'undefined' && localStorage.getItem("ghostops_demo_mode") === "true"
+    
+    if (isDemoMode) {
+      setRemediations(MOCK_REMEDIATIONS)
+    }
+  }, [])
 
   return (
     <motion.div 
@@ -54,10 +64,10 @@ export default function RemediationsPage() {
         className="grid gap-4 md:grid-cols-4"
         variants={itemVariants}
       >
-        <StatCard title="Total Remediations" value="0" />
-        <StatCard title="Pending" value="0" color="yellow" />
-        <StatCard title="Completed" value="0" color="green" />
-        <StatCard title="PRs Created" value="0" color="purple" />
+        <StatCard title="Total Remediations" value={remediations.length.toString()} />
+        <StatCard title="Pending" value={remediations.filter(r => r.status === "pending").length.toString()} color="yellow" />
+        <StatCard title="Completed" value={remediations.filter(r => r.status === "completed").length.toString()} color="green" />
+        <StatCard title="PRs Created" value={remediations.filter(r => r.prUrl).length.toString()} color="purple" />
       </motion.div>
 
       {/* Remediations List */}

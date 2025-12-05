@@ -1,9 +1,11 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Activity, Ghost, GitPullRequest, AlertTriangle, Terminal, Zap, Clock } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MOCK_ACTIVITY_LOG } from "@/lib/mockData"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,7 +29,16 @@ const itemVariants = {
 }
 
 export default function ActivityLogPage() {
-  const activities: { id: string; type: string; title: string; description: string; details: string; timestamp: string; severity: string }[] = []
+  const [activities, setActivities] = useState<typeof MOCK_ACTIVITY_LOG>([])
+
+  useEffect(() => {
+    // Check if in demo mode
+    const isDemoMode = typeof window !== 'undefined' && localStorage.getItem("ghostops_demo_mode") === "true"
+    
+    if (isDemoMode) {
+      setActivities(MOCK_ACTIVITY_LOG)
+    }
+  }, [])
 
   return (
     <motion.div 
@@ -60,11 +71,11 @@ export default function ActivityLogPage() {
         className="grid gap-4 md:grid-cols-5"
         variants={itemVariants}
       >
-        <StatCard title="Total Events" value="0" icon={<Activity className="w-4 h-4" />} />
-        <StatCard title="Scans" value="0" icon={<Ghost className="w-4 h-4" />} />
-        <StatCard title="Findings" value="0" icon={<AlertTriangle className="w-4 h-4" />} />
-        <StatCard title="Remediations" value="0" icon={<GitPullRequest className="w-4 h-4" />} />
-        <StatCard title="Hooks" value="0" icon={<Zap className="w-4 h-4" />} />
+        <StatCard title="Total Events" value={activities.length.toString()} icon={<Activity className="w-4 h-4" />} />
+        <StatCard title="Scans" value={activities.filter(a => a.type === "scan").length.toString()} icon={<Ghost className="w-4 h-4" />} />
+        <StatCard title="Findings" value={activities.filter(a => a.type === "finding").length.toString()} icon={<AlertTriangle className="w-4 h-4" />} />
+        <StatCard title="Remediations" value={activities.filter(a => a.type === "remediation").length.toString()} icon={<GitPullRequest className="w-4 h-4" />} />
+        <StatCard title="Hooks" value={activities.filter(a => a.type === "hook").length.toString()} icon={<Zap className="w-4 h-4" />} />
       </motion.div>
 
       {/* Activity Feed */}

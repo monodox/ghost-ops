@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Bell, User, Search, PanelLeft, PanelRight, Settings, LogOut } from "lucide-react"
+import { User, Search, PanelLeft, PanelRight, Settings, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "./sidebar-context"
 import { useRouter } from "next/navigation"
@@ -25,8 +25,12 @@ export function ConsoleHeader() {
   }, [])
 
   const handleLogout = () => {
-    // TODO: Clear authentication
-    router.push("/auth/login")
+    // Clear demo mode flag
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("ghostops_demo_mode")
+    }
+    // Clear authentication and redirect
+    router.push("/api/auth/logout")
   }
 
   const handleProfile = () => {
@@ -60,16 +64,6 @@ export function ConsoleHeader() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative hover:bg-purple-500/20 transition-colors"
-            title="Notifications"
-          >
-            <Bell className="w-5 h-5 text-slate-300" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-          </Button>
-          
           {/* Profile Dropdown */}
           <div className="relative" ref={profileMenuRef}>
             <Button
