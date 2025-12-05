@@ -4,9 +4,9 @@ import { verifyStateFromRequest, createTokenCookie } from "@/lib/cookies"
 
 const TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token"
 
-export async function GET(req: Request) {
+export async function GET(request: Request) {
   try {
-    const url = new URL(req.url)
+    const url = new URL(request.url)
     const code = url.searchParams.get("code")
     const state = url.searchParams.get("state")
     const error = url.searchParams.get("error")
@@ -20,7 +20,7 @@ export async function GET(req: Request) {
     }
 
     // verify state
-    const stored = verifyStateFromRequest(req)
+    const stored = verifyStateFromRequest(request)
     if (!stored || stored !== state) {
       console.error('State verification failed:', { stored, received: state })
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=invalid_state`)
