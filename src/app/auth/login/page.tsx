@@ -20,12 +20,22 @@ export default function LoginPage() {
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    // TODO: Implement email/password login
-    setTimeout(() => {
-      setLoading(false)
-      // Redirect to dashboard after successful login
-      window.location.href = "/console/dashboard"
-    }, 1000)
+    
+    // Check if using demo credentials
+    if (email === "test@example.com" && password === "password") {
+      // Set demo mode flag in localStorage
+      localStorage.setItem("ghostops_demo_mode", "true")
+      setTimeout(() => {
+        setLoading(false)
+        window.location.href = "/console/dashboard"
+      }, 1000)
+    } else {
+      // TODO: Implement real email/password login
+      setTimeout(() => {
+        setLoading(false)
+        alert("Invalid credentials. Use test@example.com / password for demo mode.")
+      }, 1000)
+    }
   }
 
   return (

@@ -45,6 +45,28 @@ export default function RepositoriesPage() {
 
   const fetchRepos = () => {
     setLoading(true)
+    
+    // Check if in demo mode
+    const isDemoMode = typeof window !== 'undefined' && localStorage.getItem("ghostops_demo_mode") === "true"
+    
+    if (isDemoMode) {
+      // Use mock data for demo
+      import("@/lib/mockData").then(({ MOCK_REPOSITORIES, MOCK_SCAN_RESULTS }) => {
+        setRepos(MOCK_REPOSITORIES)
+        // Pre-populate scan results
+        const results = new Map()
+        MOCK_REPOSITORIES.forEach(repo => {
+          const scanResult = MOCK_SCAN_RESULTS[repo.id as keyof typeof MOCK_SCAN_RESULTS]
+          if (scanResult) {
+            results.set(repo.id, scanResult)
+          }
+        })
+        setScanResults(results)
+        setLoading(false)
+      })
+      return
+    }
+    
     fetch("/api/github/repos")
       .then(res => res.json())
       .then(data => {

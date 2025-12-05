@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Ghost, Shield, AlertTriangle, CheckCircle2, Play, Eye, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import { MOCK_DASHBOARD_STATS } from "@/lib/mockData"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,6 +32,16 @@ const itemVariants = {
 export default function DashboardPage() {
   const [scanning, setScanning] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [stats, setStats] = useState<any>(null)
+
+  useEffect(() => {
+    // Check if in demo mode
+    const demoMode = typeof window !== 'undefined' && localStorage.getItem("ghostops_demo_mode") === "true"
+    
+    if (demoMode) {
+      setStats(MOCK_DASHBOARD_STATS)
+    }
+  }, [])
 
   const startScan = () => {
     setScanning(true)
@@ -113,17 +124,19 @@ export default function DashboardPage() {
                   ease: "easeInOut"
                 }}
               >
-                <div className="text-5xl font-bold text-slate-600">--</div>
+                <div className={`text-5xl font-bold ${stats ? (stats.averageHealthScore >= 80 ? 'text-green-400' : stats.averageHealthScore >= 60 ? 'text-yellow-400' : 'text-red-400') : 'text-slate-600'}`}>
+                  {stats ? stats.averageHealthScore : '--'}
+                </div>
                 <div className="text-sm text-slate-500 flex items-center gap-1 justify-end mt-1">
-                  No data yet
+                  {stats ? `${stats.scannedRepos} repos scanned` : 'No data yet'}
                 </div>
               </motion.div>
             </div>
           </CardHeader>
           <CardContent>
-            <Progress value={0} className="h-3" />
+            <Progress value={stats ? stats.averageHealthScore : 0} className="h-3" />
             <p className="text-xs text-slate-400 mt-2">
-              Run a scan to calculate your security score
+              {stats ? `${stats.totalFindings} total findings across ${stats.totalRepos} repositories` : 'Run a scan to calculate your security score'}
             </p>
           </CardContent>
         </Card>
@@ -164,30 +177,30 @@ export default function DashboardPage() {
       >
         <StatCard
           title="Critical Issues"
-          value="0"
+          value={stats ? stats.criticalFindings.toString() : "0"}
           icon={<AlertTriangle className="w-5 h-5 text-red-500" />}
-          trend="No scans yet"
+          trend={stats ? "Requires immediate attention" : "No scans yet"}
           color="red"
         />
         <StatCard
-          title="Medium Issues"
-          value="0"
+          title="Total Findings"
+          value={stats ? stats.totalFindings.toString() : "0"}
           icon={<AlertTriangle className="w-5 h-5 text-yellow-500" />}
-          trend="No scans yet"
+          trend={stats ? "Across all repositories" : "No scans yet"}
           color="yellow"
         />
         <StatCard
-          title="Passed Checks"
-          value="0"
+          title="Health Score"
+          value={stats ? `${stats.averageHealthScore}%` : "0"}
           icon={<CheckCircle2 className="w-5 h-5 text-green-500" />}
-          trend="No scans yet"
+          trend={stats ? "Average across repos" : "No scans yet"}
           color="green"
         />
         <StatCard
           title="Active Repos"
-          value="0"
+          value={stats ? stats.totalRepos.toString() : "0"}
           icon={<Shield className="w-5 h-5 text-purple-500" />}
-          trend="Add repositories"
+          trend={stats ? `${stats.scannedRepos} scanned` : "Add repositories"}
           color="purple"
         />
       </motion.div>
@@ -200,23 +213,45 @@ export default function DashboardPage() {
             <CardDescription>Latest security scan results</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-12">
-              <motion.div
-                animate={{ 
-                  y: [0, -8, 0],
-                  opacity: [0.6, 1, 0.6]
-                }}
-                transition={{ 
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <Ghost className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-              </motion.div>
-              <p className="text-slate-400">No scans yet</p>
-              <p className="text-sm text-slate-500 mt-2">Run your first scan to see results here</p>
-            </div>
+            {stats && stats.recentScans && stats.recentScans.length > 0 ? (
+              <div className="space-y-4">
+                {stats.recentScans.map((scan: any, index: number) => (
+                  <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-purple-500/20">
+                    <div className="flex items-center gap-3">
+                      <Ghost className="w-5 h-5 text-purple-400" />
+                      <div>
+                        <p className="text-sm font-medium text-white">{scan.repository}</p>
+                        <p className="text-xs text-slate-400">{new Date(scan.timestamp).toLocaleString()}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className={`text-lg font-bold ${scan.healthScore >= 80 ? 'text-green-400' : scan.healthScore >= 60 ? 'text-yellow-400' : 'text-red-400'}`}>
+                        {scan.healthScore}
+                      </p>
+                      <p className="text-xs text-slate-400">{scan.findings} findings</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <motion.div
+                  animate={{ 
+                    y: [0, -8, 0],
+                    opacity: [0.6, 1, 0.6]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <Ghost className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                </motion.div>
+                <p className="text-slate-400">No scans yet</p>
+                <p className="text-sm text-slate-500 mt-2">Run your first scan to see results here</p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </motion.div>
