@@ -11,23 +11,18 @@ export async function GET(request: Request) {
     const state = url.searchParams.get("state")
     const error = url.searchParams.get("error")
 
-    console.log('OAuth callback:', { code: !!code, state: !!state, error })
-
     // Handle GitHub OAuth errors
     if (error) {
-      console.error('GitHub OAuth error:', error)
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=github_${error}`)
     }
 
     // verify state
     const stored = verifyStateFromRequest(request)
     if (!stored || stored !== state) {
-      console.error('State verification failed:', { stored, received: state })
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=invalid_state`)
     }
 
     if (!code) {
-      console.error('No authorization code received')
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=missing_code`)
     }
 
@@ -42,18 +37,14 @@ export async function GET(request: Request) {
   })
     const data: { access_token?: string; error?: string } = await res.json()
     if (!data.access_token) {
-      console.error("token exchange failed", data)
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=token_failed`)
     }
-    
-    console.log('OAuth success, creating cookie')
     const cookie = createTokenCookie(data.access_token)
     const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/console/dashboard`
     return NextResponse.redirect(redirectUrl, {
       headers: { "Set-Cookie": cookie },
     })
-  } catch (error) {
-    console.error('OAuth callback error:', error)
+  } catch {
     return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/?error=callback_failed`)
   }
 }

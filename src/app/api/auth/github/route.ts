@@ -11,12 +11,6 @@ export async function GET() {
     const signed = signStateCookie(state)
     const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/github/callback`
     
-    console.log('Initiating GitHub OAuth:', {
-      clientId: process.env.GITHUB_OAUTH_CLIENT_ID,
-      redirectUri,
-      appUrl: process.env.NEXT_PUBLIC_APP_URL
-    })
-    
     const params = new URLSearchParams({
       client_id: process.env.GITHUB_OAUTH_CLIENT_ID || "",
       redirect_uri: redirectUri,
@@ -26,13 +20,11 @@ export async function GET() {
     })
 
     const authUrl = `${GITHUB_AUTH_URL}?${params.toString()}`
-    console.log('Redirecting to GitHub:', authUrl)
     
     return NextResponse.redirect(authUrl, {
       headers: { "Set-Cookie": signed },
     })
-  } catch (error) {
-    console.error('OAuth initiation error:', error)
+  } catch {
     return NextResponse.json({ error: 'OAuth initiation failed' }, { status: 500 })
   }
 }
