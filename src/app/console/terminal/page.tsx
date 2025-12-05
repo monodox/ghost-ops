@@ -125,7 +125,7 @@ export default function TerminalPage() {
       output = [
         "",
         `Command not found: ${trimmed}`,
-        "Type &apos;ghost help&apos; for available commands",
+        "Type 'ghost help' for available commands",
         ""
       ]
     }
